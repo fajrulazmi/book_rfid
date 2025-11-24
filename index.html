@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RFID Requests</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <style>
+    body { font-family: Arial; max-width: 400px; margin: 40px auto; }
+    input, textarea { width: 100%; padding: 10px; margin: 8px 0; }
+    button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; cursor: pointer; }
+    #qr { text-align: center; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>Request Your RFID</h2>
+<h4>Input your data first, then save the QR for share it to store side </h4>
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="from" placeholder="From">
+<input type="text" id="contact" placeholder="Contact">
+<select class="form-control" id="lokasi" name="lokasi" required style="width: 420px;">
+                <option value="">Select Destination</option>
+                <option value="Lot 6">Lot 6</option>
+                <option value="LSP">Lot 5 LSP</option>
+                <option value="Lot 5 Samping" disabled>Lot 5 samping (Kandang dan Hydroponic)</option>
+            </select>
+<textarea id="purpose" placeholder="Purpose"></textarea>
+<button style="width: 420px;" onclick="if(konfirmasi()) { generateQR(); }">Generate QR</button>
+
+
+<div id="qr">
+  <canvas id="qrCanvas"></canvas>
+</div>
+
+<script>
+  function generateQR() {
+    let name = document.getElementById("name").value;
+    let from = document.getElementById("from").value;
+    let contact = document.getElementById("contact").value;
+    let department = document.getElementById("lokasi").value;
+    let purpose = document.getElementById("purpose").value;
+
+    // Gabungkan semua field dengan |
+    let text = `${name}|${from}|${contact}|${department}|${purpose}`;
+
+    let qr = new QRious({
+      element: document.getElementById("qrCanvas"),
+      size: 260,
+      value: text
+    });
+  }
+</script>
+<script type="text/javascript">
+            function konfirmasi() {
+        return confirm("Please double check your data, Is that okay ?");
+    }
+    </script>
+</body>
+</html>
